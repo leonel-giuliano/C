@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "mallist.h"
 
@@ -69,7 +70,7 @@ searchMemoryArray_t freePtr(void *delPtr) {
 // FILES
 FILE *fopenList(const char *path, const char *mode) {
     FILE *file = fopen(path, mode);
-    memoryArray_t *newFile = (FILE *)malloc(sizeof(memoryArray_t));
+    memoryArray_t *newFile = (memoryArray_t *)malloc(sizeof(memoryArray_t));
 
     if(file != NULL && newFile != NULL) {
         newFile->ptr = file;
