@@ -34,22 +34,34 @@ void freeAll() {
     }
 }
 
-void freePtr(void *delPtr) {
+searchMemoryArray_t freePtr(void *delPtr) {
+    searchMemoryArray_t exitStatus = MALLIST_FOUND;
+    // Flag if the pointer was found inside of the list
+
     memoryArray_t *lastPtr = NULL, *iPtr = memoryArray;
     // lastPtr helps to attach the list when the ptr gets deleted
     // iPtr iterates the list
 
-    while(delPtr != iPtr->ptr) {
+    while(delPtr != iPtr->ptr && iPtr != NULL) {
         lastPtr = iPtr;
         iPtr = iPtr->next;
         // Searches for the pointer inside the list
+
+        if(iPtr == NULL) exitStatus = MALLIST_NOT_FOUND;
+        // In case the file wasn't inside of the list, saves it inside a flag
     }
 
-    if(lastPtr != NULL) lastPtr->next = iPtr->next;
-    // The last ptr skips over the given ptr
+    if(exitStatus == MALLIST_FOUND) {
+        if(lastPtr != NULL) lastPtr->next = iPtr->next;
+        // The last ptr skips over the given ptr
+
+        free(iPtr);
+    }
 
     free(delPtr);
-    free(iPtr);
+    // Frees the pointer regarding if it was inside of the list or not
+
+    return exitStatus;
 }
 
 
@@ -88,6 +100,7 @@ void fcloseAll() {
 searchMemoryArray_t fcloseList(FILE *closeFile) {
     searchMemoryArray_t exitStatus = MALLIST_FOUND;
     // Flag if the file was found inside of the list
+
     memoryArray_t *lastFile = NULL, *iFile = fileArray;
 
     while(closeFile != iFile->ptr && iFile != NULL) {
@@ -99,7 +112,7 @@ searchMemoryArray_t fcloseList(FILE *closeFile) {
         // In case the file wasn't inside of the list, saves it inside a flag
     }
 
-    if(exitStatus) {
+    if(exitStatus == MALLIST_FOUND) {
         if(lastFile != NULL) lastFile->next = iFile->next;
         // The last ptr skips over the given ptr
 
@@ -107,7 +120,7 @@ searchMemoryArray_t fcloseList(FILE *closeFile) {
     }
     
     fclose(closeFile);
-    // Closes the file regarding if it was inside of the list or no
+    // Closes the file regarding if it was inside of the list or not
 
     return exitStatus;
 }
