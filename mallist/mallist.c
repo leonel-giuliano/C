@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 #include "mallist.h"
 
@@ -36,16 +35,17 @@ void freeAll() {
 }
 
 void freePtr(void *delPtr) {
-    memoryArray_t *beforePtr = NULL, *iPtr = memoryArray;
-    // beforePtr helps to attach the list when the ptr gets deleted
+    memoryArray_t *lastPtr = NULL, *iPtr = memoryArray;
+    // lastPtr helps to attach the list when the ptr gets deleted
     // iPtr iterates the list
 
     while(delPtr != iPtr->ptr) {
-        beforePtr = iPtr;
+        lastPtr = iPtr;
         iPtr = iPtr->next;
+        // Searches for the pointer inside the list
     }
 
-    if(beforePtr != NULL) beforePtr->next = iPtr->next;
+    if(lastPtr != NULL) lastPtr->next = iPtr->next;
     // The last ptr skips over the given ptr
 
     free(delPtr);
@@ -83,4 +83,31 @@ void fcloseAll() {
         free(closeFile);
         // One closes the file and the other frees the element from the list
     }
+}
+
+searchMemoryArray_t fcloseList(FILE *closeFile) {
+    searchMemoryArray_t exitStatus = MALLIST_FOUND;
+    // Flag if the file was found inside of the list
+    memoryArray_t *lastFile = NULL, *iFile = fileArray;
+
+    while(closeFile != iFile->ptr && iFile != NULL) {
+        lastFile = iFile;
+        iFile = iFile->next;
+        // Searches for the file inside the list
+
+        if(iFile == NULL) exitStatus = MALLIST_NOT_FOUND;
+        // In case the file wasn't inside of the list, saves it inside a flag
+    }
+
+    if(exitStatus) {
+        if(lastFile != NULL) lastFile->next = iFile->next;
+        // The last ptr skips over the given ptr
+
+        free(iFile);
+    }
+    
+    fclose(closeFile);
+    // Closes the file regarding if it was inside of the list or no
+
+    return exitStatus;
 }
