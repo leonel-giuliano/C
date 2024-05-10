@@ -8,18 +8,18 @@ static memoryArray_t *fileArray = NULL;     /* List for files */
 
 // DINAMICALLY ALLOCATED MEMORY
 void *mallist(size_t size) {
-    void *ptrTemp;      /* Pointer withouth a definition type */
-    if((ptrTemp = malloc(size)) == NULL) errorHandler(MEMORY_ERROR);
+    void *ptrTemp = malloc(size);      /* Pointer withouth a definition type */
+    memoryArray_t *newPtr = (memoryArray_t*)malloc(sizeof(memoryArray_t));
 
-    memoryArray_t *newPtr;
-    if((newPtr = (memoryArray_t*)malloc(sizeof(memoryArray_t))) == NULL) errorHandler(MEMORY_ERROR);
-
-    newPtr->ptr = ptrTemp;
-    newPtr->next = memoryArray;
-    memoryArray = newPtr;
+    if(ptrTemp != NULL && newPtr != NULL) {
+        newPtr->ptr = ptrTemp;
+        newPtr->next = memoryArray;
+        memoryArray = newPtr;
+    }
     // Adds the pointer to the list
 
     return ptrTemp;
+    // Returns NULL if there is a problem allocating
 }
 
 void freeAll() {
@@ -56,19 +56,19 @@ void freePtr(void *delPtr) {
 
 // FILES
 FILE *fopenList(const char *path, const char *mode) {
-    FILE *file;
-    if((file = fopen(path, mode)) == NULL) errorHandler(FILE_ERROR);
-    // Opens the file in the set mode
+    FILE *file = fopen(path, mode);
+    memoryArray_t *newFile = (FILE *)malloc(sizeof(memoryArray_t));
 
-    memoryArray_t *newFile;
-    if((newFile = (FILE *)malloc(sizeof(memoryArray_t))) == NULL) errorHandler(FILE_ERROR);
-
-    newFile->ptr = file;
-    newFile->next = fileArray;
-    fileArray = newFile;
-    // Adds the file to the list
+    if(file != NULL && newFile != NULL) {
+        newFile->ptr = file;
+        newFile->next = fileArray;
+        fileArray = newFile;
+        // Adds the file to the list
+    }
 
     return file;
+    // Returns NULL if there was a problem opening the file
+    // If it couldn't allocate it, it skips it
 }
 
 void fcloseAll() {
@@ -83,30 +83,4 @@ void fcloseAll() {
         free(closeFile);
         // One closes the file and the other frees the element from the list
     }
-}
-
-
-
-// ERROR HANDLER
-void errorHandler(error_t event) {
-    printf("ERROR: ");
-
-    switch(event) {
-        case MEMORY_ERROR:
-            printf("There was a problem with the allocation.\n");
-            break;
-
-        case FILE_ERROR:
-            printf("There was a problem with the file.\n");
-            break;
-
-        default:
-            printf("Unknown reason.\n");
-            break;
-    }
-
-    freeAll();
-    fcloseAll();
-
-    exit(EXIT_FAILURE);
 }
