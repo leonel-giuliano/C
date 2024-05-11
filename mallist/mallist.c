@@ -18,8 +18,9 @@ void *mallist(size_t size) {
     }
     // Adds the pointer to the list
 
-    return ptrTemp;
-    // Returns NULL if there is a problem allocating
+    return (newPtr != NULL) ? ptrTemp : NULL;
+    // Returns NULL if there is a problem allocating ptrTemp
+    // It does the same if it wasn't allocated inside the list
 }
 
 void freeAll() {
@@ -79,9 +80,9 @@ FILE *fopenList(const char *path, const char *mode) {
         // Adds the file to the list
     }
 
-    return file;
+    return (newFile != NULL) ? file : NULL;
     // Returns NULL if there was a problem opening the file
-    // If it couldn't allocate it, it skips it
+    // It does the same if it wasn't allocated inside the list
 }
 
 void fcloseAll() {

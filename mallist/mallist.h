@@ -18,7 +18,7 @@ typedef struct _memory {
 // DINAMICALLY ALLOCATED MEMORY
 void *mallist(size_t);      /* Allocates the pointer inside the array, replaces malloc() */
 void freeAll();             /* Frees all the allocated memories instances */
-searchMemoryArray_t freePtr(void *);
+searchMemoryArray_t freePtr(void*);
 // Frees only the pointer given, replaces free()
 // Returns a bool telling if the pointer was found inside the list
 
