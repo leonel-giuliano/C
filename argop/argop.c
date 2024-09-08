@@ -13,17 +13,7 @@ union _argFlags_t argFlags = { 0 };
 #define operation_found bad_usage
 
 
-// Private functions
-
-uint8_t strArrLen(const char *str[]) {
-    uint8_t i = 0, loop = 1;
-    while(str[i] != NULL && loop) {
-        i++;
-        loop++;
-    }
-
-    return i;
-}
+uint8_t strArrLen(const char *_Str[]);
 
 
 void checkArgs(int argc, char *argv[], argOp_t argOp[], uint8_t numOp, ...) {
@@ -79,4 +69,17 @@ void checkArgs(int argc, char *argv[], argOp_t argOp[], uint8_t numOp, ...) {
 
     // Set the flag back to 0 for the bad_usage
     operation_found = 0;
+}
+
+
+// Private functions
+
+uint8_t strArrLen(const char *str[]) {
+    uint8_t i = 0, loop = 1;
+    while(str[i] != NULL && loop) {
+        i++;
+        loop++;
+    }
+
+    return i;
 }
