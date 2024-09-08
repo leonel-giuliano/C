@@ -4,8 +4,8 @@ cmake_minimum_required(VERSION 3.5)
 project(argop C)
 
 # Set the version of the library
-set(LIBRARY_VERSION 1.0.0)
-set(SO_VERSION 1)
+set(LIBRARY_VERSION 2.0.0)
+set(SO_VERSION 2)
 
 # Specify the source files
 set(SOURCES argop.c)

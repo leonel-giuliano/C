@@ -26,8 +26,7 @@ typedef struct {
 
 // Flags
 
-// Flag declared for the user, the functions only set it to 0
-// Should be used to tell the program there are problems on the usage
+// This flag is used to check if the operation appeared more than once
 #define bad_usage argFlags.flags.flag7
 
 // Union to use 8 bits as flags
