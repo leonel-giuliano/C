@@ -2,6 +2,9 @@
 #define __LIBARGOP_H__
 
 
+#include <stdint.h>
+
+
 // Operations
 
 // Max amount of operations type
@@ -15,9 +18,9 @@
 // and respected operations where passed when the functions
 // were called
 typedef struct {
-    unsigned char type;
+    uint8_t type;
 
-    unsigned char operation;
+    uint8_t operation;
 } argOp_t;
 
 
@@ -40,7 +43,7 @@ union _argFlags_t {
         unsigned int flag7 : 1;
     }flags;
 
-    unsigned char data;
+    uint8_t data;
 };
 
 
