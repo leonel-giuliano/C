@@ -9,7 +9,7 @@
 
 // Flags
 
-// Flag declared for the user, is not used in the functions
+// Flag declared for the user, the functions only set it to 0
 // Should be used to tell the program there are problems on the usage
 #define bad_usage argFlags.flags.flag7
 
