@@ -1,10 +1,24 @@
 #ifndef __LIBARGOP_H__
 #define __LIBARGOP_H__
 
+
 // Operations
 
 // Max amount of operations type
 #define MAX_OP 6
+
+// Value for the type and operation of argOp_t
+// when it doesn't match any operation
+#define NOT_FOUND 0
+
+// The values depend on the order which the operation types
+// and respected operations where passed when the functions
+// were called
+typedef struct {
+    unsigned char type;
+
+    unsigned char operation;
+} argOp_t;
 
 
 // Flags
@@ -29,7 +43,14 @@ union _argFlags_t {
     unsigned char data;
 };
 
+
 extern union _argFlags_t argFlags;
+
+
+// Activates 'argFlags' depending on the types of operations in the called
+// Manages '_ArgOp[]' to tell the type and operation of every argument
+// The ... should all be 'const char *_Str[]' with a 'NULL' at the end
+void checkArgs(int argc, char *argv[], argOp_t _ArgOp[], uint8_t _NumOp, ...);
 
 
 #endif
