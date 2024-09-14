@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.5)
 project(argop C)
 
 # Set the version of the library
-set(LIBRARY_VERSION 2.1.1)
+set(LIBRARY_VERSION 2.1.2)
 set(SO_VERSION 2)
 
 # Specify the source files
