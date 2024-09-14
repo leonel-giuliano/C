@@ -93,12 +93,12 @@ void searchArg(int argc, char *argv[], argOp_t argOp[], uint8_t hasMult, uint8_t
             // In case it was the last type and wasn't found then check
             // if it is a mult option
             if(hasMult && j == numOp - 1 && argv[i][0] == '-' && argv[i][1] != '-') {
-                argOp[i - 1].type = numOp;
-                argOp[i - 1].operation = numOp;
+                argOp[i - 1].type = numOp + 1;
+                argOp[i - 1].operation = numOp + 1;
 
                 // Check if the flag was already set
-                if(argFlags.data & 1 << numOp - 1) bad_usage = 1;
-                else argFlags.data |= 1 << numOp - 1;
+                if(argFlags.data & 1 << numOp) bad_usage = 1;
+                else argFlags.data |= 1 << numOp;
             }
 
             // In case it wasn't found at any point
