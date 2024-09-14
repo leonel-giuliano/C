@@ -8,7 +8,7 @@
 // Operations
 
 // Max amount of operations type
-#define MAX_OP 6
+#define MAX_OP 7
 
 // Value for the type and operation of argOp_t
 // when it doesn't match any operation
@@ -53,6 +53,17 @@ extern union _argFlags_t argFlags;
 // Manages '_ArgOp[]' to tell the type and operation of every argument
 // The ... should all be 'const char *_Str[]' with a 'NULL' at the end
 void checkArgs(int argc, char *argv[], argOp_t _ArgOp[], uint8_t _NumOp, ...);
+
+// Does the same as 'checkArgs()' but it lets you set bools for other types of arguments
+// 
+// Search if the argument is a multi operation (checks if it starts with a single '-')
+// without being passed the operations (DON'T PASS A 'const char *' FOR THE MULT OP)
+// 
+// Search if the arguments is a set one such as '--example=BYTE' (the array of this type
+// should only contain until the '=' like '--example='
+// 
+// The set operations are the first flag and the mult are the last (flag _NumOp)
+void checkFullArgs(int argc, char *argv[], argOp_t _ArgOp[], uint8_t _BoolSearchMultOp, uint8_t _BoolSearchSetOp,  uint8_t _NumOp, ...);
 
 
 #endif
