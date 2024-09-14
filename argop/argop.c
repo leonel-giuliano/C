@@ -56,9 +56,21 @@ void searchArg(int argc, char *argv[], argOp_t argOp[], uint8_t hasMult, uint8_t
     // Iterate through every argument excluding the command
     for(uint8_t i = 1; i < argc; i++) {
         uint8_t wasFound = 0;
+
+        // Firstly, check if it's a multi operation
+        if(hasMult && argv[i][0] == '-' && argv[i][1] != '-') {
+            wasFound = 1;
+
+            // Give it the last type
+            argOp[i - 1].type = numOp + 1;
+
+            // Check the flag
+            if(argFlags.data & 1 << numOp) bad_usage = 1;
+            else argFlags.data |= 1 << numOp;
+        }
         
         // Iterate through every operation type
-        for(uint8_t j = 0; j < numOp; j++) {
+        else for(uint8_t j = 0; j < numOp; j++) {
             // Get the amount of operations per type
             uint8_t strLen = strArrLen(operations[j]);
 
@@ -89,17 +101,6 @@ void searchArg(int argc, char *argv[], argOp_t argOp[], uint8_t hasMult, uint8_t
             // In case the operation was found, stops comparing
             // to the other types
             if(wasFound) break;
-
-            // In case it was the last type and wasn't found then check
-            // if it is a mult option
-            if(hasMult && j == numOp - 1 && argv[i][0] == '-' && argv[i][1] != '-') {
-                argOp[i - 1].type = numOp + 1;
-                argOp[i - 1].operation = numOp + 1;
-
-                // Check if the flag was already set
-                if(argFlags.data & 1 << numOp) bad_usage = 1;
-                else argFlags.data |= 1 << numOp;
-            }
 
             // In case it wasn't found at any point
             else if(j == numOp - 1) {
